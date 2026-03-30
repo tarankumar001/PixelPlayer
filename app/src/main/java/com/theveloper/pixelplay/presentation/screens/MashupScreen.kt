@@ -1,6 +1,5 @@
 package com.theveloper.pixelplay.presentation.screens
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -220,18 +219,6 @@ private fun DeckUi(
                     }
                 }
 
-                AnimatedVisibility(deckState.song != null && !isLoading) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 12.dp, bottom = 4.dp)
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                            .padding(16.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("Stem Separation not available yet.", style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
 
                 HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
 
@@ -242,7 +229,11 @@ private fun DeckUi(
                 ) {
                     OutlinedButton(onClick = { onNudge(-100) }, enabled = deckState.song != null) { Text("<<") }
                     IconButton(onClick = onPlayPause, enabled = deckState.song != null, modifier = Modifier.size(56.dp)) {
-                        Icon(painter = painterResource(if (deckState.isPlaying) R.drawable.rounded_pause_24 else R.drawable.rounded_play_arrow_24), contentDescription = "Play/Pause", modifier = Modifier.fillMaxSize())
+                        Icon(
+                            painter = painterResource(if (deckState.isPlaying) R.drawable.rounded_pause_24 else R.drawable.rounded_play_arrow_24),
+                            contentDescription = if (deckState.isPlaying) "Pause Deck $deckNumber" else "Play Deck $deckNumber",
+                            modifier = Modifier.fillMaxSize()
+                        )
                     }
                     OutlinedButton(onClick = { onNudge(100) }, enabled = deckState.song != null) { Text(">>") }
                 }
